@@ -10,6 +10,7 @@
   "author": "Renato de Leão <renatodeleao@proton.me>",
   "license": "ISC",
   "devDependencies": {
+    "@biomejs/biome": "1.8.3",
     "@types/node": "^20.14.11",
     "typescript": "^5.5.3"
   }
