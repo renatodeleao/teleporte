@@ -1,6 +1,6 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
 import { helloWorld } from 'teleporte'
+import HelloWorld from './components/HelloWorld.vue'
 
 helloWorld('x')
 </script>

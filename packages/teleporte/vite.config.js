@@ -1,8 +1,7 @@
-import { resolve } from 'path'
-import { defineConfig } from 'vite'
+import { resolve } from 'node:path'
 import vue from '@vitejs/plugin-vue'
+import { defineConfig } from 'vite'
 import dts from 'vite-plugin-dts'
-
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -22,10 +21,7 @@ export default defineConfig({
       },
     },
   },
-  plugins: [
-    vue(),
-    dts({ insertTypesEntry: true,  rollupTypes: true  })
-  ],
+  plugins: [vue(), dts({ insertTypesEntry: true, rollupTypes: true })],
   resolve: {
     alias: {
       'teleporte-test-utils': resolve(__dirname, './test/utils.js'),

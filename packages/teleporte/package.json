@@ -3,9 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "types": "./dist/teleporte.d.ts",
   "main": "./dist/teleporte.umd.cjs",
   "module": "./dist/teleporte.js",

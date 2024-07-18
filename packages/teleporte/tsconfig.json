@@ -3,8 +3,8 @@
   "compilerOptions": {
     "composite": true,
     "paths": {
-      "teleporte-test-utils": ["./test/utils.js"],
+      "teleporte-test-utils": ["./test/utils.js"]
     }
   },
-  "include": ["src/**/*.js", "src/**/*.vue", "test/**/*.js"],
+  "include": ["src/**/*.js", "src/**/*.vue", "test/**/*.js"]
 }
