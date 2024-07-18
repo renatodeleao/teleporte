@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "composite": true,
+    "paths": {
+      "teleporte-test-utils": ["./test/utils.js"],
+    }
+  },
+  "include": ["src/**/*.js", "src/**/*.vue", "test/**/*.js"],
+}

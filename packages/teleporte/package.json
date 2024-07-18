@@ -1,0 +1,33 @@
+{
+  "name": "teleporte",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "types": "./dist/teleporte.d.ts",
+  "main": "./dist/teleporte.umd.cjs",
+  "module": "./dist/teleporte.js",
+  "exports": {
+    ".": {
+      "import": "./dist/teleporte.js",
+      "require": "./dist/teleporte.umd.cjs"
+    }
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test:unit": "vitest"
+  },
+  "dependencies": {
+    "vue": "^3.4.31"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.0.5",
+    "vite": "^5.3.4",
+    "vite-plugin-dts": "4.0.0-beta.0",
+    "vitest": "^2.0.3"
+  }
+}

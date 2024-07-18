@@ -1,0 +1,16 @@
+{
+  "name": "teleporte-monorepo",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "playground": "pnpm --filter playground",
+    "teleporte": "pnpm --filter teleporte"
+  },
+  "keywords": [],
+  "author": "Renato de Leão <renatodeleao@proton.me>",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.14.11",
+    "typescript": "^5.5.3"
+  }
+}
