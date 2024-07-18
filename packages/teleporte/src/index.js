@@ -1,13 +1,4 @@
-/**
- * @typedef {(name: string) => void} HelloWorldFn
- */
-export function helloWorld(name = 'World') {
-  const a = {
-    a: 42,
-    b: 'hello',
-  }
-  const arr = ['a', 'b']
-  const val = `Hello ${name}!`
-  console.log(val)
-  return val
-}
+export { useTeleporte } from './core.js'
+export { default as Teleporte } from './Teleporte.vue'
+export { default as TeleporteTarget } from './TeleporteTarget.vue'
+export { plugin as TeleportePlugin } from './plugin.js'
