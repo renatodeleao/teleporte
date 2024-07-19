@@ -1,9 +1,9 @@
-import Teleporte from './Teleporte.vue'
-import TeleporteTarget from './TeleporteTarget.vue'
+import TeleportOrigin from './TeleportOrigin.vue'
+import TeleportTarget from './TeleportTarget.vue'
 
 export const plugin = {
   install(app) {
-    app.component('Teleporte', Teleporte)
-    app.component('TeleporteTarget', TeleporteTarget)
+    app.component('TeleportOrigin', TeleportOrigin)
+    app.component('TeleportTarget', TeleportTarget)
   },
 }

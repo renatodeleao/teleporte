@@ -1,12 +1,12 @@
 <script setup>
-import { Teleporte, TeleporteTarget } from 'teleporte'
+import { TeleportOrigin, TeleportTarget } from 'teleporte'
 import { reactive } from 'vue'
 
 const state = reactive({
   disabled: true,
-  teleporteRendered: true,
-  teleporteContentRendered: true,
-  teleporteTargetRendered: true,
+  teleportRendered: true,
+  teleportContentRendered: true,
+  teleportTargetRendered: true,
 })
 </script>
 
@@ -33,7 +33,7 @@ const state = reactive({
     </button>
     <button
       type="button"
-      @click="state.teleporteRendered = !state.teleporteRendered"
+      @click="state.teleportRendered = !state.teleportRendered"
     >
       Toggle rendered
     </button>
@@ -44,33 +44,33 @@ const state = reactive({
 
   <div class="showcase">
     <div class="origin">
-      <transition name="teleporte-out">
-        <Teleporte
-          v-if="state.teleporteRendered"
+      <transition name="teleport-out">
+        <TeleportOrigin
+          v-if="state.teleportRendered"
           to="target"
           :disabled="state.disabled"
         >
-          <div v-if="state.teleporteContentRendered" class="teleport">
+          <div v-if="state.teleportContentRendered" class="teleport">
             Teleported content
           </div>
-        </Teleporte>
+        </TeleportOrigin>
       </transition>
     </div>
 
     <div class="target">
-      <TeleporteTarget
-        v-if="state.teleporteTargetRendered"
+      <TeleportTarget
+        v-if="state.teleportTargetRendered"
         name="target"
-        #default="teleports"
+        #default="teleported"
       >
-        <transition name="teleporte-in">
+        <transition name="teleport-in">
           <component
-            v-if="teleports[0]"
-            :is="teleports[0]?.component"
-            :key="teleports[0]?.key"
+            v-if="teleported[0]"
+            :is="teleported[0]?.component"
+            :key="teleported[0]?.key"
           />
         </transition>
-      </TeleporteTarget>
+      </TeleportTarget>
     </div>
   </div>
 </template>
@@ -137,23 +137,23 @@ const state = reactive({
   gap: 100px;
 }
 
-.teleporte-out-enter-active,
-.teleporte-out-leave-active {
+.teleport-out-enter-active,
+.teleport-out-leave-active {
   transition: all 0.5s ease;
 }
 
-.teleporte-out-enter-from,
-.teleporte-out-leave-to {
+.teleport-out-enter-from,
+.teleport-out-leave-to {
   transform: translateX(100%);
 }
 
-.teleporte-in-enter-active,
-.teleporte-in-leave-active {
+.teleport-in-enter-active,
+.teleport-in-leave-active {
   transition: all 0.5s ease;
 }
 
-.teleporte-in-enter-from,
-.teleporte-in-leave-to {
+.teleport-in-enter-from,
+.teleport-in-leave-to {
   transform: translateX(-100%);
 }
 </style>

@@ -1,12 +1,12 @@
 <script setup>
 import { computed } from 'vue'
-import { useTeleporte } from './core.js'
+import { usePortal } from './core.js'
 
 const props = defineProps({
   name: String,
 })
 
-const { index } = useTeleporte()
+const { index } = usePortal()
 
 const teleported = computed(() => {
   return index.value.filter(

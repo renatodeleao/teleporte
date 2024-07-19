@@ -19,30 +19,30 @@ Then Import the components.
 
 ```html
 <sript setup>
-import { Teleporte, TeleporteTarget } from 'teleporte'
+import { TeleportOrigin, TeleportTarget } from 'teleporte'
 </script>
 
 <!-- Same API as portal-vue, in fact snippet is from their repo -->
-<teleporte to="destination">
+<teleport-origin to="destination">
   <p>This slot content will be rendered wherever the
-    <teleporte-target> with name 'destination'
+    <teleport-target> with name 'destination'
     is located.
   </p>
 </teleporte>
 
-<teleporte-target name="destination">
+<teleport-target name="destination">
   <!--
   This component can be located anywhere in your App
   (i.e. right before the </body> tag, good for overlays).
   The slot content of the above teleporte component will be rendered here.
   -->
-</teleporte-target>
+</teleport-target>
 ```
 
 ### Install as Vue plugin
 
 ```js
-import { TeleportePlugin } from 'teleporte'
+import { TeleportPlugin } from 'teleporte'
 import { createApp } from 'vue'
 
 const app = createApp()
@@ -57,22 +57,22 @@ import { Teleporte, TeleporteTarget } from 'teleporte'
 </script>
 
 <!-- Same API as portal-vue, in fact snippet is from their repo -->
-<teleporte to="destination">
+<teleport-origin to="destination">
   <p>This slot content will be rendered wherever the
-    <teleporte-target> with name 'destination'
+    <teleport-target> with name 'destination'
     is located.
   </p>
-</teleporte>
+</teleport-origin>
 
-<teleporte-target name="destination" #default="teleported">
+<teleport-target name="destination" #default="teleported">
   <transition-group>
     <component 
-      v-for="teleporte in teleported"
-      :key="teleporte.key"
-      :is="teleporte.component"
+      v-for="teleport in teleported"
+      :key="teleport.key"
+      :is="teleport.component"
     />
   </transition-group>
-</teleporte-target>
+</teleport-target>
 ```
 
 
@@ -107,7 +107,7 @@ This is not a feature parity conversion, these are the quirks in the other Vue
 
 <small>
 
-1. Requires usage of target componentn `#default` slot bindings and loop over 
+1. Requires usage of target component `#default` slot bindings and loop over 
    exposed vnodes  directly into `TransitionGroup` default slot
 1. after `nextTick` (see caveats in docs)
 1. to assert the need for `nextTick`

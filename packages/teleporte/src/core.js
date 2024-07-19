@@ -3,44 +3,44 @@ import { createGlobalState } from './shared'
 
 /**
  * Global state for managing teleports.
- * @typedef {object} UseTeleporteReturn
- * @prop {import('vue').Reactive<{[key: Teleported["key"]]: Teleported}>} state
- * @prop {import('vue').ComputedRef<Teleported[]>} index
- * @prop {function(Teleported): Teleported} create
- * @prop {function(Teleported | { key: Teleported["key"] }): void} destroy
- * @prop {function(Partial<Teleported> & { key: Teleported["key"]}): Teleported} update
+ * @typedef {object} UsePortalReturn
+ * @prop {import('vue').Reactive<{[key: TeleportI["key"]]: TeleportI}>} state
+ * @prop {import('vue').ComputedRef<TeleportI[]>} index
+ * @prop {function(TeleportI): TeleportI} create
+ * @prop {function(TeleportI | { key: TeleportI["key"] }): void} destroy
+ * @prop {function(Partial<TeleportI> & { key: TeleportI["key"]}): TeleportI} update
  */
 
 /**
- * @type {() => UseTeleporteReturn}}
+ * @type {() => UsePortalReturn}}
  */
-export const useTeleporte = createGlobalState(() => {
+export const usePortal = createGlobalState(() => {
   /**
-   * @type {UseTeleporteReturn["state"]}
+   * @type {UsePortalReturn["state"]}
    */
   const state = reactive({})
 
   /**
-   * @type {UseTeleporteReturn["index"]}
+   * @type {UsePortalReturn["index"]}
    */
   const index = computed(() => {
     return Object.values(state).sort((a, b) => a.position - b.position)
   })
 
-  /** @type {UseTeleporteReturn["create"]} */
+  /** @type {UsePortalReturn["create"]} */
   function create(attributes) {
-    const teleport = new Teleporte(attributes)
+    const teleport = new Teleport(attributes)
     state[teleport.key] = teleport
     // the reactive proxy not the original class
     return state[teleport.key]
   }
 
-  /** @type {UseTeleporteReturn["destroy"]} */
+  /** @type {UsePortalReturn["destroy"]} */
   function destroy({ key }) {
     delete state[key]
   }
 
-  /** @type {UseTeleporteReturn["update"]} */
+  /** @type {UsePortalReturn["update"]} */
   function update({ key, ...attributes }) {
     state[key] = {
       ...state[key],
@@ -60,7 +60,7 @@ export const useTeleporte = createGlobalState(() => {
 
 /**
  * Model
- * @typedef {Object} Teleported
+ * @typedef {Object} TeleportI
  * @prop {number} position
  * @prop {string} key
  * @prop {boolean} [disabled=false]
@@ -68,11 +68,11 @@ export const useTeleporte = createGlobalState(() => {
  * @prop {string} to
  * @prop {import('vue').Component} component
  */
-class Teleporte {
+class Teleport {
   static position = 0
-  /** @param {Teleported} attributes */
+  /** @param {TeleportI} attributes */
   constructor(attributes) {
-    this.position = Teleporte.position++
+    this.position = Teleport.position++
     this.key = attributes.key ?? `teleporte-${this.position}`
     this.disabled = attributes.disabled
     this.to = attributes.to

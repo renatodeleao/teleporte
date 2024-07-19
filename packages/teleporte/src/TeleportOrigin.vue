@@ -8,7 +8,7 @@ import {
   watch,
 } from 'vue'
 import { useProvidedContext } from './shared.js'
-import { useTeleporte } from './core.js'
+import { usePortal } from './core.js'
 
 /**
  * @note [A]
@@ -30,7 +30,7 @@ export default defineComponent({
     },
   },
   setup(props, { slots }) {
-    const { create, destroy } = useTeleporte()
+    const { create, destroy } = usePortal()
     const forwardContext = useProvidedContext()
 
     const renderPlaceholder = () => h(Comment, `AppTeleport: ${teleport.key}`)
