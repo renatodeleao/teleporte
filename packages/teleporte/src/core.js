@@ -1,22 +1,36 @@
 import { reactive, computed } from 'vue'
-import { createGlobalState } from './shared'
+
+/**
+ * {@link https://www.totaltypescript.com/concepts/the-prettify-helper}
+ * @template T
+ * @typedef {{[K in keyof T]: T[K] & {}}} Prettify
+ */
 
 /**
  * Global state for managing teleports.
+ * @typedef {Prettify<
+ *   Partial<TeleportI> &
+ *   {
+ *     to: TeleportI["to"],
+ *     component: TeleportI["component"],
+ *   }
+ * >} TeleportCreateAttrs
+ *
+ * @typedef {import('vue').Reactive<{[key: TeleportI["key"]]: TeleportI}>} State
+
  * @typedef {object} UsePortalReturn
- * @prop {import('vue').Reactive<{[key: TeleportI["key"]]: TeleportI}>} state
  * @prop {import('vue').ComputedRef<TeleportI[]>} index
- * @prop {function(TeleportI): TeleportI} create
+ * @prop {function(TeleportCreateAttrs): TeleportI} create
  * @prop {function(TeleportI | { key: TeleportI["key"] }): void} destroy
  * @prop {function(): void} destroyAll - prune state
  */
 
 /**
- * @type {() => UsePortalReturn}}
+ * @type {() => UsePortalReturn>}}
  */
-export const usePortal = createGlobalState(() => {
+export const usePortal = (() => {
   /**
-   * @type {UsePortalReturn["state"]}
+   * @type {State}
    */
   const state = reactive({})
 
@@ -36,54 +50,66 @@ export const usePortal = createGlobalState(() => {
       })
   })
 
-  /** @type {UsePortalReturn["create"]} */
-  function create(attributes) {
-    const teleport = new Teleport({
-      ...attributes,
-      position: attributes.position ?? index.value.length,
-    })
-    state[teleport.key] = teleport
-    // the reactive proxy not the original class
-    return state[teleport.key]
-  }
+  return () => {
+    /** @type {UsePortalReturn["create"]} */
+    function create(attributes) {
+      const teleport = Teleport({
+        ...attributes,
+        position: attributes.position ?? index.value.length,
+      })
+      state[teleport.key] = teleport
+      // the reactive proxy not the original class
+      return state[teleport.key]
+    }
 
-  /** @type {UsePortalReturn["destroy"]} */
-  function destroy({ key }) {
-    delete state[key]
-  }
-
-  /** @type {UsePortalReturn["destroyAll"]} */
-  function destroyAll() {
-    for (const key in state) {
+    /** @type {UsePortalReturn["destroy"]} */
+    function destroy({ key }) {
       delete state[key]
     }
-  }
 
-  return {
-    index,
-    create,
-    destroy,
-    destroyAll,
+    /** @type {UsePortalReturn["destroyAll"]} */
+    function destroyAll() {
+      for (const key in state) {
+        delete state[key]
+      }
+    }
+
+    return {
+      index,
+      create,
+      destroy,
+      destroyAll,
+    }
   }
-})
+})()
 
 /**
- * Model
+ * "Model" Factory
  * @typedef {Object} TeleportI
- * @prop {number=} position
+ * @prop {number} position
  * @prop {string} key
  * @prop {boolean} [disabled=false]
- * @prop {boolean} disabled
  * @prop {string} to
- * @prop {import('vue').Component} component
+ * @prop {object} component
+ *
+ * @typedef {Prettify<
+ *   Partial<TeleportI> &
+ *   {
+ *     position: TeleportI["position"],
+ *     to: TeleportI["to"],
+ *     component: TeleportI["component"],
+ *   }
+ * >} TeleportRequiredAttrs
+ *
+ * @param {TeleportRequiredAttrs} attributes
+ * @return {TeleportI}
  */
-export class Teleport {
-  /** @param {TeleportI} attributes */
-  constructor(attributes) {
-    this.position = attributes.position
-    this.key = attributes.key ?? `teleporte-${this.position}`
-    this.disabled = attributes.disabled || false
-    this.to = attributes.to
-    this.component = attributes.component
+export function Teleport(attributes) {
+  return {
+    position: attributes.position,
+    key: attributes.key ?? `teleporte-${attributes.position}`,
+    disabled: attributes.disabled || false,
+    to: attributes.to,
+    component: attributes.component,
   }
 }

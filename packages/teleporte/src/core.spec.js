@@ -1,5 +1,4 @@
-import { nextTick } from 'vue'
-import { usePortal, Teleport } from './core'
+import { usePortal } from './core'
 import { describe, test, expect, beforeEach } from 'teleporte-test-utils'
 
 // singleton cleanup to ensure we start fresh on every test
@@ -37,7 +36,13 @@ describe('usePortal', () => {
         component: {},
       })
 
-      expect(portal.index.value[0]).toBeInstanceOf(Teleport)
+      expect(portal.index.value[0]).toEqual({
+        position: 0,
+        key: '1',
+        to: 'dest',
+        disabled: false,
+        component: {},
+      })
     })
   })
 
@@ -58,11 +63,10 @@ describe('usePortal', () => {
         component: {},
       })
 
-      expect
       expect(portal.index.value).toEqual([teleport1, teleport2])
     })
 
-    test('inserts a portal at a given position int the index,', async () => {
+    test('inserts a portal at a given position int the index,', () => {
       const portal = usePortal()
 
       expect(portal.index.value).toEqual([])
@@ -84,8 +88,6 @@ describe('usePortal', () => {
         to: 'dest',
         component: {},
       })
-
-      await nextTick()
 
       expect(portal.index.value.map((t) => t.key)).toEqual([
         teleportInsert.key,
