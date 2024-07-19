@@ -76,7 +76,7 @@ export class Teleport {
   constructor(attributes) {
     this.position = attributes.position
     this.key = attributes.key ?? `teleporte-${this.position}`
-    this.disabled = attributes.disabled
+    this.disabled = attributes.disabled || false
     this.to = attributes.to
     this.component = attributes.component
   }
