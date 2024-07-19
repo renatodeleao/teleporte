@@ -61,7 +61,7 @@ const state = reactive({
       <TeleporteTarget
         v-if="state.teleporteTargetRendered"
         name="target"
-        #default="{ teleports }"
+        #default="teleports"
       >
         <transition name="teleporte-in">
           <component

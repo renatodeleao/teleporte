@@ -8,7 +8,7 @@ const props = defineProps({
 
 const { index } = useTeleporte()
 
-const teleports = computed(() => {
+const teleported = computed(() => {
   return index.value.filter(
     (teleport) => teleport.to === props.name && teleport.disabled === false,
   )
@@ -16,9 +16,9 @@ const teleports = computed(() => {
 </script>
 
 <template>
-  <slot :teleports>
+  <slot v-bind="teleported">
     <component
-      v-for="teleport in teleports" :key="teleport.key"
+      v-for="teleport in teleported" :key="teleport.key"
       :is="teleport.component"
     />
   </slot>
