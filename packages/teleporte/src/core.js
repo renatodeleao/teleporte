@@ -24,7 +24,16 @@ export const usePortal = createGlobalState(() => {
    * @type {UsePortalReturn["index"]}
    */
   const index = computed(() => {
-    return Object.values(state).sort((a, b) => a.position - b.position)
+    return Object.values(state)
+      .sort((a, b) => {
+        const n = a.position - b.position
+        return n === 0 ? -1 : n
+      })
+      .map((record, index) => {
+        // shady, ensure that positions updated after insert
+        record.position = index
+        return record
+      })
   })
 
   /** @type {UsePortalReturn["create"]} */
