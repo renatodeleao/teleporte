@@ -39,7 +39,7 @@ import { Teleporte, TeleporteTarget } from 'teleporte'
 </teleporte-target>
 ```
 
-### As a vue plugin
+### Install as Vue plugin
 
 ```js
 import { TeleportePlugin } from 'teleporte'
@@ -48,6 +48,31 @@ import { createApp } from 'vue'
 const app = createApp()
 app.use(TeleportPlugin)
 // exposes Teleporte and TeleportTarget as global components
+```
+
+### Usage with TransitionGroup
+```html
+<sript setup>
+import { Teleporte, TeleporteTarget } from 'teleporte'
+</script>
+
+<!-- Same API as portal-vue, in fact snippet is from their repo -->
+<teleporte to="destination">
+  <p>This slot content will be rendered wherever the
+    <teleporte-target> with name 'destination'
+    is located.
+  </p>
+</teleporte>
+
+<teleporte-target name="destination" #default="teleported">
+  <transition-group>
+    <component 
+      v-for="teleporte in teleported"
+      :key="teleporte.key"
+      :is="teleporte.component"
+    />
+  </transition-group>
+</teleporte-target>
 ```
 
 
@@ -72,7 +97,7 @@ This is not a feature parity conversion, these are the quirks in the other Vue
 
 | Quirks list                                              | Vue's `<teleport>` | `portal-vue` | `teleporte`          |
 |----------------------------------------------------------|--------------------|--------------|----------------------|
-| Works when target is mounted after teleport              | x                  | ✔️            | ✔️                    |
+| Works when target is mounted after teleport              | x⁵                 | ✔️            | ✔️                    |
 | Teleported content can use provide/inject origin context | ✔️                  | x            | ✔️                    |
 | Teleport Target can use `<TransitionGroup>`              | x                  | ✔️¹           | ✔️¹                   |
 | use of $parent                                           | (TBD)              | x            | (TBD)                |
@@ -82,12 +107,12 @@ This is not a feature parity conversion, these are the quirks in the other Vue
 
 <small>
 
-
 1. Requires usage of target componentn `#default` slot bindings and loop over 
    exposed vnodes  directly into `TransitionGroup` default slot
 1. after `nextTick` (see caveats in docs)
 1. to assert the need for `nextTick`
 1. Yes with caveats
+1. Will be supported [without workarounds in 3.5.x minor](https://github.com/vuejs/core/pull/11387)
 
 </small>
 
@@ -96,14 +121,20 @@ This is not a feature parity conversion, these are the quirks in the other Vue
 See the guide at [CONTRIBUTING.md](./CONTRIBUTING.md)
 
 # Goals
-- This project aims to be minimal and to never exceed then ≈1.5KB size.
-   - The core — the global state manage imperative API is only `0.48kb gzip`
-   - The biggest chunk is the two components wrappers around the core. 
-- To be deprecated if `Vue` teleport adds fixes to the current quirks :)
+- This project aims to be a minimalistic alternative to `<teleport>`: 
+  - bundle size to be kept below `1.3KB gzip`. The core — the global state 
+    management imperative API is around `0.48kb gzip`.
+  - No unnecessary features: it should do one thing and do it well, move content
+    between two vnodes.
+- To be deprecated if `Vue` teleport adds fixes to the current quirks 
+  - [x] https://github.com/vuejs/core/issues/2015
+  - [ ] https://github.com/vuejs/core/issues/4737
+  - [ ] https://github.com/vuejs/core/issues/5836#issuecomment-2230343828 :)
+  - [ ] https://github.com/vuejs/core/issues/5864
 
 # Credits
 
 - `portal-vue`, the main inspiration for this package implementation
 - Vue‘s `teleport`  quirks for the motivation to do it
-- `@vueuse/core` - `createGlobalState` is used as teleports global state manager 
+- `@vueuse/core` - `createGlobalState` is used as `teleporte` global state manager 
 - To all maintainers from the packages in dependencies.
