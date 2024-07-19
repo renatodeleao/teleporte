@@ -1,1 +1,1 @@
-export { expect, test, describe, it } from 'vitest'
+export * from 'vitest'
