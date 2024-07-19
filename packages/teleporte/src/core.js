@@ -8,6 +8,7 @@ import { createGlobalState } from './shared'
  * @prop {import('vue').ComputedRef<TeleportI[]>} index
  * @prop {function(TeleportI): TeleportI} create
  * @prop {function(TeleportI | { key: TeleportI["key"] }): void} destroy
+ * @prop {function(): void} destroyAll - prune state
  */
 
 /**
@@ -42,6 +43,10 @@ export const usePortal = createGlobalState(() => {
     delete state[key]
   }
 
+  /** @type {UsePortalReturn["destroyAll"]} */
+  function destroyAll() {
+    for (const key in state) {
+      delete state[key]
     }
   }
 
@@ -49,6 +54,7 @@ export const usePortal = createGlobalState(() => {
     index,
     create,
     destroy,
+    destroyAll,
   }
 })
 
