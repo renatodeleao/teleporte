@@ -29,7 +29,10 @@ export const usePortal = createGlobalState(() => {
 
   /** @type {UsePortalReturn["create"]} */
   function create(attributes) {
-    const teleport = new Teleport(attributes)
+    const teleport = new Teleport({
+      ...attributes,
+      position: attributes.position ?? index.value.length,
+    })
     state[teleport.key] = teleport
     // the reactive proxy not the original class
     return state[teleport.key]
@@ -61,18 +64,17 @@ export const usePortal = createGlobalState(() => {
 /**
  * Model
  * @typedef {Object} TeleportI
- * @prop {number} position
+ * @prop {number=} position
  * @prop {string} key
  * @prop {boolean} [disabled=false]
  * @prop {boolean} disabled
  * @prop {string} to
  * @prop {import('vue').Component} component
  */
-class Teleport {
-  static position = 0
+export class Teleport {
   /** @param {TeleportI} attributes */
   constructor(attributes) {
-    this.position = Teleport.position++
+    this.position = attributes.position
     this.key = attributes.key ?? `teleporte-${this.position}`
     this.disabled = attributes.disabled
     this.to = attributes.to
