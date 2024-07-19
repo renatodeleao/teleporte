@@ -6,9 +6,9 @@ import { createGlobalState } from './shared'
  * @typedef {object} UseTeleporteReturn
  * @prop {import('vue').Reactive<{[key: Teleported["key"]]: Teleported}>} state
  * @prop {import('vue').ComputedRef<Teleported[]>} index
- * @prop {function(TeleportedAttrs): Teleported} create
- * @prop {function(TeleportedAttrs | { key: Teleported["key"] }): void} destroy
- * @prop {function(Partial<TeleportedAttrs> & { key: Teleported["key"]}): Teleported} update
+ * @prop {function(Teleported): Teleported} create
+ * @prop {function(Teleported | { key: Teleported["key"] }): void} destroy
+ * @prop {function(Partial<Teleported> & { key: Teleported["key"]}): Teleported} update
  */
 
 /**
@@ -24,7 +24,7 @@ export const useTeleporte = createGlobalState(() => {
    * @type {UseTeleporteReturn["index"]}
    */
   const index = computed(() => {
-    return Object.values(state).sort((a, b) => a.createdAt - b.createdAt)
+    return Object.values(state).sort((a, b) => a.position - b.position)
   })
 
   /** @type {UseTeleporteReturn["create"]} */
@@ -61,20 +61,19 @@ export const useTeleporte = createGlobalState(() => {
 /**
  * Model
  * @typedef {Object} Teleported
- * @prop {string} createdAt
+ * @prop {number} position
  * @prop {string} key
  * @prop {boolean} [disabled=false]
  * @prop {boolean} disabled
  * @prop {string} to
  * @prop {import('vue').Component} component
- *
- * @typedef {Omit<Teleported, "createdAt">} TeleportedAttrs
  */
 class Teleporte {
-  /** @param {TeleportedAttrs} attributes */
+  static position = 0
+  /** @param {Teleported} attributes */
   constructor(attributes) {
-    this.createdAt = new Date().toISOString()
-    this.key = attributes.key ?? this.createdAt
+    this.position = Teleporte.position++
+    this.key = attributes.key ?? `teleporte-${this.position}`
     this.disabled = attributes.disabled
     this.to = attributes.to
     this.component = attributes.component
