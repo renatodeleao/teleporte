@@ -7,7 +7,7 @@ import {
   onBeforeUnmount,
   watch,
 } from 'vue'
-import { useProvidedContext } from './shared.js'
+import { useProvidedContext } from './utils.js'
 import { usePortal } from './core.js'
 
 /**
