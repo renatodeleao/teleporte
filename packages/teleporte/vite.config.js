@@ -27,4 +27,7 @@ export default defineConfig({
       'teleporte-test-utils': resolve(__dirname, './test/utils.js'),
     },
   },
+  test: {
+    environment: 'jsdom',
+  },
 })

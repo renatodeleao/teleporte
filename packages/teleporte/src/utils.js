@@ -9,10 +9,9 @@ export function useProvidedContext() {
   const ctx = getCurrentInstance()
 
   return function forwardContext() {
-    // @ts-ignore
-    for ([key, context] of Object.entries(ctx.provides)) {
-      // @ts-ignore
+    // biome-ignore lint: jsdom doesn't like for of Object.entries() and i want to test things
+    Object.entries(ctx.provides).forEach(([key, context]) => {
       provide(key, context)
-    }
+    })
   }
 }
