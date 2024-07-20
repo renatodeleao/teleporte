@@ -21,7 +21,7 @@ import { usePortal } from './core.js'
  *   https://github.com/tailwindlabs/headlessui/blob/f3353728bdae88cd352e6fb15c4c2992f3a65ed9/packages/%40headlessui-vue/src/utils/render.ts#L111
  */
 export default defineComponent({
-  name: 'AppTeleport',
+  name: 'TeleportOrigin',
   props: {
     disabled: Boolean,
     to: {
@@ -33,7 +33,8 @@ export default defineComponent({
     const { create, destroy } = usePortal()
     const forwardContext = useProvidedContext()
 
-    const renderPlaceholder = () => h(Comment, `AppTeleport: ${teleport.key}`)
+    const renderPlaceholder = () =>
+      h(Comment, `TeleportOrigin: ${teleport.key}`)
     // NOTE [A]
     const renderContent = () => {
       const children = slots.default?.() || []
@@ -41,7 +42,7 @@ export default defineComponent({
     }
 
     const component = defineComponent({
-      name: 'AppTeleportWrapper',
+      name: 'TeleportOriginSlot',
       setup() {
         forwardContext()
 
