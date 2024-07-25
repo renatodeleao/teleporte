@@ -6,6 +6,7 @@
     "teleporte": "0.0.0"
   },
   "changesets": [
-    "itchy-cycles-burn"
+    "itchy-cycles-burn",
+    "wicked-seahorses-brush"
   ]
 }
