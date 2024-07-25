@@ -7,7 +7,7 @@
     "teleporte": "pnpm --filter teleporte"
   },
   "keywords": [],
-  "author": "Renato de Leão <renatodeleao@proton.me>",
+  "author": "Renato de Leão <<https://github.com/renatodeleao>",
   "license": "ISC",
   "devDependencies": {
     "@biomejs/biome": "1.8.3",

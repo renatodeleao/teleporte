@@ -1,6 +1,23 @@
 {
   "name": "teleporte",
   "version": "1.0.0-rc.0",
+  "description": "Like Vue‘s Teleport component, but different.",
+  "author": "Renato de Leão <https://github.com/renatodeleao>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/renatodeleao/teleporte.git",
+    "directory": "packages/teleporte"
+  },
+  "bugs": {
+    "url": "https://github.com/renatodeleao/teleporte/issues"
+  },
+  "keywords": [
+    "vue",
+    "teleport",
+    "portal",
+    "components",
+    "utils"
+  ],
   "type": "module",
   "files": [
     "dist"
