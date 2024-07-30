@@ -1,4 +1,5 @@
 import { reactive, computed } from 'vue'
+import { isBrowser } from './utils.js'
 
 /**
  * {@link https://www.totaltypescript.com/concepts/the-prettify-helper}
@@ -53,6 +54,8 @@ export const usePortal = (() => {
   return () => {
     /** @type {UsePortalReturn["create"]} */
     function create(attributes) {
+      if (!isBrowser) return {}
+
       const teleport = Teleport({
         ...attributes,
         position: attributes.position ?? index.value.length,

@@ -15,3 +15,5 @@ export function useProvidedContext() {
     })
   }
 }
+
+export const isBrowser = typeof window !== 'undefined'
