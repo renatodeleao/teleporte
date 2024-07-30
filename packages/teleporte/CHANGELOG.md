@@ -1,5 +1,19 @@
 # teleporte
 
+## 1.0.0-rc.3
+
+### Patch Changes
+
+- 8d01f82: Document SSR caveats and instructions
+- f43cfd5: Prevent Cross-Request State Pollution
+
+  TL;DR we use a singleton for teleports state and the module state is preserved on each request leading to teleport duplication.
+
+  See:
+
+  - https://vuejs.org/guide/scaling-up/ssr#cross-request-state-pollution
+  - https://portal-vue.linusb.org/guide/ssr.html
+
 ## 1.0.0-rc.2
 
 ### Patch Changes
