@@ -38,14 +38,14 @@ This is not a feature parity conversion, these are the quirks in the other Vue
 | use of $parent                                           | (TBD)              | x            | (TBD)                |
 | vue-router view                                          | (TBD)              | x            | x (will not support) |
 | use of $refs                                             | ✔️                  | ✔️²           | ✔️³                   |
-| SSR support                                              | ✔️⁴                 | ✔️⁴           | x (TBD)              |
+| SSR support                                              | ✔️⁴                 | ✔️⁴           | ✔️⁴                   |
 
 ##### Footnotes
 1. Requires usage of target component `#default` slot bindings and loop over 
    exposed vnodes  directly into `TransitionGroup` default slot
 1. after `nextTick` (see caveats in docs)
 1. to assert the need for `nextTick`
-1. Yes with caveats
+1. Yes with caveats (see [SSR Section](#ssr))
 1. Will be supported [without workarounds in 3.5.x minor](https://github.com/vuejs/core/pull/11387)
 
 # Installation & basic usage.
@@ -116,6 +116,23 @@ import { Teleporte, TeleporteTarget } from 'teleporte'
   </transition-group>
 </teleport-target>
 ```
+### SSR
+
+#### cross-request-state-pollution
+TL;DR we use a singleton pattern for storing `teleports` state so the module state is preserved on each request which would lead to content duplication. We prevent that within library code.
+
+
+#### Hydration mismatches
+Since the content will not render on server, you'll get a warning from Vue. The same caveat is present in the other "teleport" implementations so the workarounds are the same:
+
+1. defer `<teleport-origin>` mount with a `ref` at `onMounted` hook + `v-if`
+1. Your SSR framework (like `nuxt`) will probably provide a `<client-only>` component, so wrap inside it
+1. There are external `<client-only>` component implementations [out there](https://github.com/egoist/vue-client-only/blob/master/src/index.js) as well or you can roll your own.
+
+See:
+- https://vuejs.org/guide/scaling-up/ssr#cross-request-state-pollution
+- https://vuejs.org/guide/scaling-up/ssr#teleports
+- https://portal-vue.linusb.org/guide/ssr.html
 
 # Contribute
 See the guide at [CONTRIBUTING.md](./CONTRIBUTING.md)

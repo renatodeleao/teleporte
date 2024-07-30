@@ -1,6 +1,13 @@
 <script setup>
 import { TeleportOrigin, TeleportTarget } from 'teleporte'
+const isClient = ref(false)
 const disabled = ref(false)
+
+// prevent hydration mismatch
+// or use <client-only /> component
+onMounted(() => {
+  isClient.value = true
+})
 </script>
 
 <template>
@@ -10,11 +17,19 @@ const disabled = ref(false)
     <div class="showcase">
       <div class="origin">
         <TeleportOrigin
+          v-if="isClient"
           to="target"
           :disabled="disabled"
         >
           <div class="teleport">
             Teleported content
+          </div>
+        </TeleportOrigin>
+        <TeleportOrigin
+          to="target"
+        >
+          <div class="teleport">
+            Hidration Mismatch
           </div>
         </TeleportOrigin>
       </div>
