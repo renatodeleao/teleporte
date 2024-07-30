@@ -37,6 +37,13 @@ const state = reactive({
     >
       Toggle rendered
     </button>
+
+    <button
+      type="button"
+      @click="state.teleportContentRendered = !state.teleportContentRendered"
+    >
+      Toggle Content rendered
+    </button>
     <div>
       <pre>{{ state }}</pre>
     </div>
