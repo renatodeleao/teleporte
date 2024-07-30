@@ -38,7 +38,9 @@ export default defineComponent({
     // NOTE [A]
     const renderContent = () => {
       const children = slots.default?.() || []
-      return children.length === 1 ? children[0] : children
+      return children.length === 1
+        ? children[0]
+        : children.filter((vnode) => vnode.type !== Comment)
     }
 
     const component = defineComponent({

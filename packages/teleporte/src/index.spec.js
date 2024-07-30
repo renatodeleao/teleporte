@@ -235,6 +235,34 @@ describe('direct usage', () => {
         </div>"
       `)
     })
+
+    // avoid breaking transitions
+    test('it excludes comment nodes from teleported content', () => {
+      const { html } = render({
+        template: `
+            <div id="origin">
+              <TeleportOrigin to="dest">
+                <!-- comment -->
+                <div data-qa="teleported">Teleported</div>
+                <!-- another comment -->
+              </TeleportOrigin>
+            </div>
+
+            <div id="target">
+              <TeleportTarget name="dest" />
+            </div>
+          `,
+      })
+
+      expect(html()).toMatchInlineSnapshot(`
+          "<div id="origin">
+            <!--TeleportOrigin: teleporte-0-->
+          </div>
+          <div id="target">
+            <div data-qa="teleported">Teleported</div>
+          </div>"
+        `)
+    })
   })
 })
 
