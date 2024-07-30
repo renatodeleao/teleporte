@@ -1,5 +1,11 @@
 # teleporte
 
+## 1.0.0-rc.2
+
+### Patch Changes
+
+- bd54460: Exclude comment nodes from TeleportOrigin slot
+
 ## 1.0.0-rc.1
 
 ### Patch Changes
