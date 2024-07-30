@@ -4,7 +4,8 @@
   "description": "",
   "scripts": {
     "playground": "pnpm --filter playground",
-    "teleporte": "pnpm --filter teleporte"
+    "teleporte": "pnpm --filter teleporte",
+    "release:teleporte": "pnpm teleporte build && pnpm changeset publish"
   },
   "keywords": [],
   "author": "Renato de Leão <<https://github.com/renatodeleao>",
