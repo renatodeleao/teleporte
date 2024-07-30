@@ -236,6 +236,46 @@ describe('direct usage', () => {
       `)
     })
 
+    test(`it teleports when v-if is is applied on TeleportOrigin content root`, async () => {
+      const { html, setProps } = render({
+        props: {
+          teleportOriginRendered: {
+            type: Boolean,
+            default: false,
+          },
+        },
+        template: `
+          <div id="origin">
+            <TeleportOrigin to="dest" v-if="teleportOriginRendered">
+              <div data-qa="teleported">Teleported</div>
+            </TeleportOrigin>
+          </div>
+
+          <div id="target">
+            <TeleportTarget name="dest" />
+          </div>
+        `,
+      })
+
+      expect(html()).toMatchInlineSnapshot(`
+        "<div id="origin">
+          <!--v-if-->
+        </div>
+        <div id="target"></div>"
+      `)
+
+      await setProps({ teleportOriginRendered: true })
+
+      expect(html()).toMatchInlineSnapshot(`
+        "<div id="origin">
+          <!--TeleportOrigin: teleporte-0-->
+        </div>
+        <div id="target">
+          <div data-qa="teleported">Teleported</div>
+        </div>"
+      `)
+    })
+
     // avoid breaking transitions
     test('it excludes comment nodes from teleported content', () => {
       const { html } = render({
@@ -262,6 +302,85 @@ describe('direct usage', () => {
             <div data-qa="teleported">Teleported</div>
           </div>"
         `)
+    })
+
+    test('it renders slot fragments', () => {
+      const ComponentA = defineComponent({
+        name: 'ComponentA',
+        template: `
+          <div id="component-a">
+            <div class="component-a__default">
+              <slot  />
+            </div>
+            <div class="component-a__content">
+              <slot name="content" />
+            </div>
+          </div>
+        `,
+      })
+
+      const Example = defineComponent({
+        name: 'Example',
+        components: { ComponentA },
+        template: `
+          <div id="example">
+            <div class="example__default">
+              <slot />
+            </div>
+            <ComponentA>
+              <template #default>
+                <slot name="default-forward" />
+              </template>
+
+              <template #content>
+                <slot name="content-forward" />
+              </template>
+            </ComponentA>
+          </div>
+        `,
+      })
+
+      const { html } = render({
+        components: {
+          Example,
+        },
+        template: `
+          <div id="origin">
+            <TeleportOrigin to="dest">
+              <Example>
+                <template #default>
+                  <span>default</span>
+                </template>
+                <template #default-forward>
+                  <span>default forward</span>
+                </template>
+                <template #content-forward>
+                  <span>content forward</span>
+                </template>
+              </Example>
+            </TeleportOrigin>
+          </div>
+
+          <div id="target">
+            <TeleportTarget name="dest" />
+          </div>
+        `,
+      })
+
+      expect(html()).toMatchInlineSnapshot(`
+        "<div id="origin">
+          <!--TeleportOrigin: teleporte-0-->
+        </div>
+        <div id="target">
+          <div id="example">
+            <div class="example__default"><span>default</span></div>
+            <div id="component-a">
+              <div class="component-a__default"><span>default forward</span></div>
+              <div class="component-a__content"><span>content forward</span></div>
+            </div>
+          </div>
+        </div>"
+      `)
     })
   })
 })
