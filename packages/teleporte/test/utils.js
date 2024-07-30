@@ -4,9 +4,9 @@ import { defineComponent, nextTick } from 'vue'
 import { TeleportOrigin, TeleportTarget } from '../src/index.js'
 
 /**
- * @param {string| { template: string, setup: function }} template
+ * @param {string|import('vue').ComponentOptions} template
  * @param {{
- *  defineComponents: boolean,
+ *  defineComponents?: boolean,
  *  plugins?: import('vue').Plugin[]
  *  components?: import('vue').ComponentOptions['components']
  *  props?: import('vue').ComponentOptions['components']
