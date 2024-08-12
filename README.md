@@ -141,8 +141,9 @@ See the guide at [CONTRIBUTING.md](./CONTRIBUTING.md)
 1. To be deprecated if Vue‘s `<teleport>` adds fixes to the current quirks :)
    - [x] https://github.com/vuejs/core/issues/2015
    - [ ] https://github.com/vuejs/core/issues/4737
-   - [ ] https://github.com/vuejs/core/issues/5836#issuecomment-2230343828
-   - [ ] https://github.com/vuejs/core/issues/5864
+   - [ ] https://github.com/vuejs/core/issues/5836#issuecomment-2230343828 (the issue was closed, but it still doesn't work for the `<TransitionGroup>` use case)
+   - [x] https://github.com/vuejs/core/issues/5864 (closed by https://github.com/vuejs/core/pull/11387)
+   - [x] https://github.com/vuejs/core/issues/2015#event-13838188118
 1. While that does not happen, this project aims to be a just minimalistic enhanced 
    version of `<teleport>`: 
    - bundle size to be kept below around `≈1.2KB gzip`
